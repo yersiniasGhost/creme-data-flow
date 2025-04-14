@@ -1,0 +1,6 @@
+argparse==1.4.0
+asyncio-mqtt==0.16.2
+backoff==2.2.1
+paho-mqtt==2.1.0
+python-dotenv==1.0.1
+influxdb-client==1.48.0
