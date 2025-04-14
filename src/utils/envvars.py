@@ -31,7 +31,7 @@ class EnvVars(metaclass=Singleton):
         # Application settings
         self.debug = self._get_bool('DEBUG', "False")
         self.log_level = self._getenv('LOG_LEVEL', 'INFO')
-        self.log_path = self._getenv("LOG_PATH", "/var/log/creme")
+        self.log_path = self._getenv("LOG_PATH", "/var/log/raptor")
 
 
     def _getenv(self, variable: str, default: Optional[str] = None) -> Optional[str]:

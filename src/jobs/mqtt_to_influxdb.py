@@ -15,7 +15,7 @@ from utils.logger import LogManager
 
 class MqttToInflux:
     def __init__(self):
-        self.logger = LogManager().get_logger("mqtt_influx")
+        self.logger = LogManager("crem3-mqtt-influx").get_logger("mqtt_influx")
         # Create InfluxDB client
         self.influx_client = InfluxDBClient(
             url=EnvVars().influx_url,
