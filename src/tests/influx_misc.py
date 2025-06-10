@@ -18,8 +18,9 @@ bucket = EnvVars().influx_bucket
 
 # List buckets
 buckets_api = client.buckets_api()
-buckets = buckets_api.find_buckets()
-for bucket in buckets:
+buckets_resp = buckets_api.find_buckets()
+print("Buckets:")
+for bucket in buckets_resp.buckets:
     print(f"Bucket: {bucket.name}, Org: {bucket.org_id}")
 
 # List measurements in a bucket
