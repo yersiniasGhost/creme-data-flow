@@ -26,7 +26,7 @@ for bucket in buckets_resp.buckets:
 # List measurements in a bucket
 flux_query = '''
 import "influxdata/influxdb/schema"
-schema.measurements(bucket:"your-bucket-name")
+schema.measurements(bucket:"crem3")
 '''
 query_api = client.query_api()
 result = query_api.query(flux_query)
