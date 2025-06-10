@@ -29,7 +29,14 @@ import "influxdata/influxdb/schema"
 schema.measurements(bucket:"crem3")
 '''
 query_api = client.query_api()
-result = query_api.query(flux_query)
-print(result)
-# measurements_df = result.to_pandas()
-# print("Available measurements:", measurements_df['_value'].tolist())
+tables = query_api.query(flux_query)
+
+measurements = []
+
+if tables:
+    for table in tables:
+        df = table.to_pandas()
+        if not df.empty and '_value' in df.columns:
+            measurements.extend(df['_value'].tolist())
+
+print(f"Measurements found: {measurements}")
