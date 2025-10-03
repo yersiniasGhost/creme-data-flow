@@ -33,6 +33,11 @@ class EnvVars(metaclass=Singleton):
         self.log_level = self._getenv('LOG_LEVEL', 'INFO')
         self.log_path = self._getenv("LOG_PATH", "/var/log/raptor")
 
+        # MongoDB Injection settings
+        self.enable_mongo_injection = self._get_bool('ENABLE_MONGO_INJECTION', "False")
+        self.mongo_write_timeout_ms = int(self._getenv('MONGO_WRITE_TIMEOUT_MS', '5000'))
+        self.failed_writes_log_path = self._getenv('FAILED_WRITES_LOG_PATH', '/var/log/raptor/failed_writes.log')
+
 
     def _getenv(self, variable: str, default: Optional[str] = None) -> Optional[str]:
         return self.env_variables.get(variable) or self.env_variables.setdefault(
