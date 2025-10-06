@@ -35,6 +35,7 @@ class MqttToInflux:
         # Set up MQTT client
         self.mqtt_client = mqtt.Client()
         self.mqtt_client.on_connect = self.on_connect
+        self.mqtt_client.on_disconnect = self.on_disconnect
         self.mqtt_client.on_message = self.on_message
 
         # Create write API with synchronous mode
@@ -148,9 +149,18 @@ class MqttToInflux:
 
     # MQTT client setup
     def on_connect(self, client, userdata, flags, rc):
-        self.logger.info(f"Connected to MQTT broker with result code {rc}")
-        client.subscribe(EnvVars().mqtt_topic)
+        if rc == 0:
+            self.logger.info(f"Connected to MQTT broker with result code {rc}")
+            client.subscribe(EnvVars().mqtt_topic)
+            self.logger.info(f"Subscribed to topic: {EnvVars().mqtt_topic}")
+        else:
+            self.logger.error(f"Failed to connect to MQTT broker with result code {rc}")
 
+    def on_disconnect(self, client, userdata, rc):
+        if rc != 0:
+            self.logger.warning(f"Unexpected disconnect from MQTT broker (rc={rc}). Will attempt to reconnect.")
+        else:
+            self.logger.info("Disconnected from MQTT broker")
 
     def on_message(self, client, userdata, msg):
         self.logger.info(f"Received message on topic {msg.topic}")
@@ -170,13 +180,14 @@ class MqttToInflux:
                 print(f"Name: {org.name}")
                 print(f"Description: {org.description}")
                 print("-" * 30)
-            # Connect to MQTT broker
+            # Connect to MQTT broker with automatic reconnection
             port = int(EnvVars().mqtt_port)
             self.mqtt_client.connect(EnvVars().mqtt_url, port, 60)
 
-            # Start the MQTT loop
+            # Start the MQTT loop with automatic reconnection
+            # loop_forever() will automatically reconnect if connection is lost
             print("Starting MQTT client, waiting for messages...")
-            self.mqtt_client.loop_forever()
+            self.mqtt_client.loop_forever(retry_first_connection=True)
         except KeyboardInterrupt:
             print("Service stopped")
         finally:
