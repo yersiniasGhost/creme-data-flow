@@ -3,10 +3,10 @@ import json
 import paho.mqtt.client as mqtt
 from influxdb_client import InfluxDBClient
 from influxdb_client.client.write_api import SYNCHRONOUS
-from src.utils.envvars import EnvVars
-from utils.logger import LogManager
-from jobs.mongo_injection import MongoInjection
-from jobs.data_validator import LineProtocolValidator
+from creme_data_flow.utils.envvars import EnvVars
+from creme_data_flow.utils.logger import LogManager
+from .mongo_injection import MongoInjection
+from .data_validator import LineProtocolValidator
 
 
 class MqttToInflux:
@@ -185,7 +185,7 @@ class MqttToInflux:
 
 if __name__ == "__main__":
     # Check if MongoDB injection should be enabled via environment variable
-    enable_mongo = EnvVars()._getenv("ENABLE_MONGO_INJECTION", "false").lower() in ('true', '1', 'yes')
+    enable_mongo = EnvVars().get_env("ENABLE_MONGO_INJECTION", "false").lower() in ('true', '1', 'yes')
 
     if enable_mongo:
         print("MongoDB injection enabled")

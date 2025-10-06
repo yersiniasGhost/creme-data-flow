@@ -1,6 +1,6 @@
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
-from utils.logger import LogManager
+from creme_data_flow.utils.logger import LogManager
 
 
 @dataclass

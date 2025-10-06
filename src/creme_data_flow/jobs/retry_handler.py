@@ -12,8 +12,8 @@ import re
 from typing import List, Tuple, Optional
 from datetime import datetime
 from pathlib import Path
-from utils.logger import LogManager
-from utils.envvars import EnvVars
+from creme_data_flow.utils.logger import LogManager
+from creme_data_flow.utils.envvars import EnvVars
 from jobs.mongo_injection import MongoInjection
 from jobs.data_validator import LineProtocolValidator
 

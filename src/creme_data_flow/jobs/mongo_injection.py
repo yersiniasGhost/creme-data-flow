@@ -1,12 +1,12 @@
 from typing import List, Optional, Dict, Any
 import re
 import json
-from utils.envvars import EnvVars
-from utils.logger import LogManager
+from creme_data_flow.utils.envvars import EnvVars
+from creme_data_flow.utils.logger import LogManager
 
-from mongo.battery_system_history_tools import BatterySystemHistoryTools, UpdateOne
-from mongo.plant_tools import PlantTools
-from mongo_models.plant_bus_history import GenerationState, LoadState, BessState
+from galaxy.mongo.battery_system_history_tools import BatterySystemHistoryTools, UpdateOne
+from galaxy.mongo.plant_tools import PlantTools
+from galaxy.mongo_models.plant_bus_history import GenerationState, LoadState, BessState
 
 
 class MongoInjection:
